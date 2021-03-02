@@ -1,9 +1,10 @@
-import { clearElements, getElements } from "../services/elementsService.js";
 import ForecastTable from "./block-forecastTable.js";
+import { clearElements, getElements } from "../services/elementsService.js";
 import { countryCodeToName } from "../utils/countryCodeToName.js";
 import { unixToDate } from "../utils/unixToDate.js";
 import { formatDate } from "../utils/formatDate.js";
 import { formatTemperature } from "../utils/formatTemperature.js";
+import { changeTemplate } from "../utils/changeTemplate.js";
 
 export function showForecastData(data, cities, countries, moduleEl) {
   // clear elements that displaying previous forecast data
@@ -33,6 +34,8 @@ export function showForecastData(data, cities, countries, moduleEl) {
   cityEl.innerHTML = cityName;
   countryEl.innerHTML = countryName;
   temperatureEl.innerHTML = `${formatTemperature(forecast[0].main.temp)}`;
+
+  changeTemplate(forecast[0].main.temp, weatherEl);
 
   if (forecast.length !== 0) {
     const filteredDays = onlyDifferentDays(forecast);
