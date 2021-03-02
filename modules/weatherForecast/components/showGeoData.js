@@ -1,12 +1,16 @@
 import { forecastEndpoint, ipGeoEndpoint } from "../config.js";
 import { getIpLocation } from "../services/ipGeoService.js";
 import { getForecastData } from "../services/forecastDataService.js";
+import { getElements } from "../services/elementsService.js";
+import { showForecastData } from "./showForecastData.js";
 
 export function showGeoData(localData, moduleEl) {
   // initialization Geo Location
+  const { statusEl } = getElements(moduleEl);
 
   if (!navigator.geolocation) {
-    return console.log("Geolokace není podporována ve vašem prohlížeči.");
+    return (statusEl.innerHTML =
+      "Geolokace není podporována ve vašem prohlížeči.");
   } else {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -46,6 +50,11 @@ export function showGeoData(localData, moduleEl) {
 function getForecastByCoordinates(lat, lon, localData, moduleEl) {
   const forecastUrl = `${forecastEndpoint}&units=metric&lat=${lat}&lon=${lon}&exclude=minutely,hourly`;
   getForecastData(forecastUrl).then((forecastData) => {
-    console.log(forecastData, localData);
+    showForecastData(
+      forecastData,
+      localData.cities,
+      localData.countries,
+      moduleEl
+    );
   });
 }

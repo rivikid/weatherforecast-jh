@@ -1,7 +1,5 @@
-import ForecastTable from "./block-forecastTable.js";
-
 const Forecast = () => {
-  return `<div class="weather__forecast-content">${ForecastTable()}</div>`;
+  return `<div class="weather__forecast-content"></div>`;
 };
 
 export default Forecast;
