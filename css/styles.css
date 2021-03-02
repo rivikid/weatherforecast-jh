@@ -1,0 +1,14 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+.block {
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 1rem;
+  gap: 2rem;
+}

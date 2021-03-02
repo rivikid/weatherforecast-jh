@@ -1,0 +1,13 @@
+/* main */
+
+[role="weather-forecast"] *,
+[role="weather-forecast"] ::after,
+[role="weather-forecast"] ::before {
+  box-sizing: border-box;
+}
+
+[role="weather-forecast"] {
+  width: 100%;
+  background: #dbdbdb;
+  height: 200px;
+}
