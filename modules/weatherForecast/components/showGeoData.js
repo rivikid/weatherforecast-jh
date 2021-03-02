@@ -3,8 +3,12 @@ import { getIpLocation } from "../services/ipGeoService.js";
 import { getForecastData } from "../services/forecastDataService.js";
 import { getElements } from "../services/elementsService.js";
 import { showForecastData } from "./showForecastData.js";
+import { searchData } from "./searchData.js";
 
 export function showGeoData(localData, moduleEl) {
+  // searching forecast by searchbar
+  searchData(localData, moduleEl);
+
   // initialization Geo Location
   const { statusEl } = getElements(moduleEl);
 
