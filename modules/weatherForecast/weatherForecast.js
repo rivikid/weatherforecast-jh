@@ -2,6 +2,7 @@ import ModuleStructure from "./components/moduleStructure.js";
 import Loader from "./components/loader.js";
 import { citiesEndpoint, countriesEndpoint } from "./config.js";
 import { getLocalData } from "./services/localDataService.js";
+import { showGeoData } from "./components/showGeoData.js";
 
 export function WeatherForecast(moduleEl) {
   // inserting structure of the Weather forecast module
@@ -14,7 +15,7 @@ export function WeatherForecast(moduleEl) {
   // fetching data from local JSONs
   getLocalData(citiesEndpoint, countriesEndpoint).then((localData) => {
     loaderElement.innerHTML = "";
-    console.log(localData);
+    showGeoData(localData, moduleEl);
     console.log("Weather Forecast loaded.");
   });
 }
