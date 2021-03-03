@@ -16,6 +16,5 @@ export function WeatherForecast(moduleEl) {
   getLocalData(citiesEndpoint, countriesEndpoint).then((localData) => {
     loaderElement.innerHTML = "";
     showGeoData(localData, moduleEl);
-    console.log("Weather Forecast loaded.");
   });
 }

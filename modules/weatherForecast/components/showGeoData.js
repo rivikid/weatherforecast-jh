@@ -28,13 +28,13 @@ export function showGeoData(localData, moduleEl) {
 
         // getting location by IP adress
         getIpLocation(ipGeoEndpoint).then((ipGeoData) => {
-          console.log("Location is approximate by using your IP location.");
-          getForecastByCoordinates(
-            ipGeoData.lat,
-            ipGeoData.lon,
-            localData,
-            moduleEl
-          );
+          if (!ipGeoData.error) {
+            const { lat: latitude, lon: longitude } = ipGeoData;
+            console.log("Location is approximate by using your IP location.");
+            getForecastByCoordinates(latitude, longitude, localData, moduleEl);
+          } else {
+            console.log("Failed to receiveIP location.");
+          }
         });
       }
     );
@@ -42,12 +42,8 @@ export function showGeoData(localData, moduleEl) {
 
   function showPosition(position) {
     //call API for forecast data by: location coordinates (latitude, longitude)
-    getForecastByCoordinates(
-      position.coords.latitude,
-      position.coords.longitude,
-      localData,
-      moduleEl
-    );
+    const { latitude, longitude } = position.coords;
+    getForecastByCoordinates(latitude, longitude, localData, moduleEl);
   }
 }
 
