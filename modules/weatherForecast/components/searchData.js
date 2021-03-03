@@ -1,16 +1,18 @@
-import { forecastEndpoint } from "../config.js";
+import { citiesEndpoint, forecastEndpoint } from "../config.js";
+import { getCitiesData } from "../services/citiesService.js";
 import { getForecastData } from "../services/forecastDataService.js";
 import { autocomplete } from "../utils/autocomplete.js";
 import { showForecastData } from "./showForecastData.js";
+import { filterInputText } from "../utils/filterInputText.js";
 
-let cities = [];
-let countries = [];
-
-export function searchData(data, moduleEl) {
+export function searchData(moduleEl) {
+  let cities = [];
   const searchEl = moduleEl.querySelector(".weather__search");
   const autocompleteEl = moduleEl.querySelector(".autocomplete");
-  cities = data.cities;
-  countries = data.countries;
+
+  getCitiesData(citiesEndpoint).then((data) => {
+    cities = data;
+  });
 
   document.addEventListener(
     "click",
@@ -21,9 +23,20 @@ export function searchData(data, moduleEl) {
   );
   searchEl.addEventListener(
     "click",
-    (e) => {
+    (ev) => {
       // click on searchbar stopped adding hidden class to autocomplete
-      e.stopPropagation();
+      ev.stopPropagation();
+    },
+    false
+  );
+
+  searchEl.addEventListener(
+    "keypress",
+    (ev) => {
+      if (ev.key === "Enter") {
+        // code for enter
+        handleSelect(ev, searchEl, autocompleteEl, moduleEl);
+      }
     },
     false
   );
@@ -40,7 +53,12 @@ export function searchData(data, moduleEl) {
 
 // if start typing to search input, autocomplete rows are visible
 const handleSearchChange = (ev, cities, searchEl, autocompleteEl, moduleEl) => {
-  ev.currentTarget.setAttribute("data-value", ev.currentTarget.value);
+  // injection prevent
+  ev.currentTarget.setAttribute(
+    "data-value",
+    filterInputText(ev.currentTarget.value)
+  );
+  ev.currentTarget.value = ev.currentTarget.getAttribute("data-value");
   const cityName = ev.currentTarget.getAttribute("data-value");
   if (cityName) {
     autocompleteEl.classList.remove("hidden");
@@ -61,15 +79,13 @@ const handleSearchChange = (ev, cities, searchEl, autocompleteEl, moduleEl) => {
 const handleSelect = (ev, searchEl, autocompleteEl, moduleEl) => {
   // save city name and clear search bar
   const chosenCity = ev.currentTarget.getAttribute("data-value");
-  searchEl.setAttribute("data-value", "");
-  searchEl.value = "";
   autocompleteEl.classList.add("hidden");
 
   // call API for forecast data by: city name
   const forecastUrl = `${forecastEndpoint}&units=metric&q=${chosenCity}`;
   if (chosenCity) {
     getForecastData(forecastUrl).then((forecastData) => {
-      showForecastData(forecastData, cities, countries, moduleEl);
+      showForecastData(forecastData, moduleEl);
     });
   }
 };

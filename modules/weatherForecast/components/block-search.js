@@ -2,7 +2,7 @@ const Search = () => {
   return `<div class="weather__searchbar">
     <input
         class="weather__search"
-        type="text"
+        type="search"
         data-value=""
         placeholder="Vyhledej město..."
     />
