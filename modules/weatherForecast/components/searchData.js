@@ -1,13 +1,14 @@
 import { citiesEndpoint, forecastEndpoint } from "../config.js";
 import { getCitiesData } from "../services/citiesService.js";
 import { getForecastData } from "../services/forecastDataService.js";
+import { getElements } from "../services/elementsService.js";
 import { autocomplete } from "../utils/autocomplete.js";
 import { showForecastData } from "./showForecastData.js";
 import { filterInputText } from "../utils/filterInputText.js";
 
 export function searchData(moduleEl) {
   let cities = [];
-  const searchEl = moduleEl.querySelector(".weather__search");
+  const { searchEl } = getElements(moduleEl);
   const autocompleteEl = moduleEl.querySelector(".autocomplete");
 
   getCitiesData(citiesEndpoint).then((data) => {
@@ -17,7 +18,7 @@ export function searchData(moduleEl) {
   document.addEventListener(
     "click",
     () => {
-      autocompleteEl.classList.add("hidden");
+      autocompleteEl.classList.add("autocomplete--hidden");
     },
     false
   );
@@ -61,7 +62,7 @@ const handleSearchChange = (ev, cities, searchEl, autocompleteEl, moduleEl) => {
   ev.currentTarget.value = ev.currentTarget.getAttribute("data-value");
   const cityName = ev.currentTarget.getAttribute("data-value");
   if (cityName) {
-    autocompleteEl.classList.remove("hidden");
+    autocompleteEl.classList.remove("autocomplete--hidden");
     autocomplete(
       cities,
       cityName,
@@ -71,7 +72,7 @@ const handleSearchChange = (ev, cities, searchEl, autocompleteEl, moduleEl) => {
       handleSelect
     );
   } else {
-    autocompleteEl.classList.add("hidden");
+    autocompleteEl.classList.add("autocomplete--hidden");
   }
 };
 
@@ -79,7 +80,7 @@ const handleSearchChange = (ev, cities, searchEl, autocompleteEl, moduleEl) => {
 const handleSelect = (ev, searchEl, autocompleteEl, moduleEl) => {
   // save city name and clear search bar
   const chosenCity = ev.currentTarget.getAttribute("data-value");
-  autocompleteEl.classList.add("hidden");
+  autocompleteEl.classList.add("autocomplete--hidden");
 
   // call API for forecast data by: city name
   const forecastUrl = `${forecastEndpoint}&units=metric&q=${chosenCity}`;

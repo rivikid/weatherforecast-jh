@@ -2,15 +2,14 @@
 // need to be in sync with css styles and html structure
 
 const weather = ".weather";
-const loader = ".weather__loader";
-const status = ".weather__status";
-const search = ".weather__search";
-const currentContent = ".weather__current-content";
-const text = `${currentContent}__text`;
-const city = `${currentContent}__city`;
-const country = `${currentContent}__country`;
-const temperature = `${currentContent}__temperature`;
-const forecastContent = ".weather__forecast-content";
+const loader = `${weather}__loader`;
+const status = `${weather}__status`;
+const search = `${weather}__searchbar`;
+const text = `${weather}__message`;
+const city = `${weather}__city`;
+const country = `${weather}__country`;
+const temperature = `${weather}__temperature`;
+const forecast = `${weather}__forecast`;
 
 export function clearElements(moduleEl) {
   moduleEl.querySelector(loader).innerHTML = "";
@@ -20,7 +19,7 @@ export function clearElements(moduleEl) {
   moduleEl.querySelector(city).innerHTML = "";
   moduleEl.querySelector(country).innerHTML = "";
   moduleEl.querySelector(temperature).innerHTML = "";
-  moduleEl.querySelector(forecastContent).innerHTML = "";
+  moduleEl.querySelector(forecast).innerHTML = "";
 }
 
 export function getElements(moduleEl) {
@@ -32,7 +31,7 @@ export function getElements(moduleEl) {
   const cityEl = moduleEl.querySelector(city);
   const countryEl = moduleEl.querySelector(country);
   const temperatureEl = moduleEl.querySelector(temperature);
-  const forecastContentEl = moduleEl.querySelector(forecastContent);
+  const forecastEl = moduleEl.querySelector(forecast);
   return {
     weatherEl,
     loaderEl,
@@ -42,6 +41,6 @@ export function getElements(moduleEl) {
     cityEl,
     countryEl,
     temperatureEl,
-    forecastContentEl,
+    forecastEl,
   };
 }

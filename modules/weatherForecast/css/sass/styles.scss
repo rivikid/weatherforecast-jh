@@ -1,0 +1,363 @@
+@use "sass:color";
+@import "config";
+@import "utilities";
+
+/**
+* Common components
+*/
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+/**
+ * List-groups 
+ */
+.list-group {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.list-group__item {
+  display: block;
+}
+
+/**
+ * loaders
+ */
+.loader {
+  margin: 0 auto;
+  border: 7px solid rgba(255, 255, 255, 0.5);
+  border-top: 7px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.5s linear infinite;
+
+  &--primary {
+    border: 7px solid rgba(255, 255, 255, 0.5);
+    border-top: 7px solid $color-primary;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/**
+ * Tables
+ */
+.table {
+  border-collapse: collapse;
+  border: 0;
+  width: 100%;
+
+  th,
+  td {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+.table--rounded {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+
+  td:first-child {
+    @include border-top-left-radius(15px);
+    @include border-bottom-left-radius(15px);
+  }
+  td:last-child {
+    @include border-top-right-radius(15px);
+    @include border-bottom-right-radius(15px);
+  }
+}
+
+.table--light {
+  color: $color-dark;
+
+  thead {
+    color: $color-light;
+  }
+
+  td {
+    background-image: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.9)
+    );
+  }
+}
+
+/**
+ * Autocomplete
+ */
+.autocomplete {
+  position: absolute;
+  left: 0;
+  top: 110%;
+  max-height: 300%;
+  background-color: $color-light;
+  box-shadow: 0 0.5rem 0.5rem color.adjust($color-dark, $alpha: -0.9);
+  overflow: auto;
+  overflow-x: hidden;
+  z-index: 100;
+  width: 100%;
+
+  .list-group__item {
+    display: block;
+    padding: 0.5rem;
+    border-bottom: 1px solid color.adjust($color-dark, $lightness: 95%);
+    cursor: pointer;
+
+    &:hover {
+      background-color: color.adjust($color-dark, $lightness: 95%);
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &--rounded {
+    border-radius: 10px;
+  }
+
+  &--hidden {
+    display: none;
+  }
+}
+
+/**
+ * Main styles for component "weather-forecast"
+ */
+
+[role="weather-forecast"] {
+  width: 100%;
+}
+
+$weather: "weather";
+
+.#{$weather} {
+  width: 100%;
+  min-height: 300px;
+  background: $weather-color-neutral;
+  box-shadow: $weather-shadow;
+  font-family: $weather-font-family;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $weather-color-text-neutral;
+  overflow: hidden;
+  padding: 1rem;
+
+  &--warm {
+    background-color: $weather-color-warm;
+    background-image: $weather-background-warm;
+    color: $weather-color-text-warm;
+
+    .table--light {
+      color: $weather-color-text-warm;
+    }
+  }
+
+  &--neutral {
+    background-color: $weather-color-neutral;
+    background-image: $weather-background-neutral;
+    color: $weather-color-text-neutral;
+
+    .table--light {
+      color: $weather-color-text-neutral;
+    }
+  }
+
+  &--cold {
+    background-color: $weather-color-cold;
+    background-image: $weather-background-cold;
+    color: $weather-color-text-cold;
+
+    .table--light {
+      color: $weather-color-text-cold;
+    }
+  }
+
+  /**
+   * Loader
+   */
+  .loader--primary {
+    border-top: 7px solid $weather-color-warm;
+  }
+
+  /**
+   * Block - Header 
+   */
+
+  &__header {
+    @include display-flex-column(space-between);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $color-light;
+    text-shadow: $weather-shadow;
+  }
+
+  &__status {
+    margin-top: 0.5rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    &__header {
+      flex-direction: row;
+    }
+
+    &__status {
+      margin-top: 0;
+    }
+  }
+
+  /** 
+   * Block - Search 
+   */
+
+  &__search {
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+    outline: 0;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  &__searchbar {
+    border: 0;
+    outline: 0;
+    border-radius: 25px;
+    box-shadow: $weather-shadow;
+    font-size: 1rem;
+    color: $color-dark;
+    padding: 1rem 2rem;
+    width: 100%;
+
+    &::placeholder,
+    &::-webkit-input-placeholder {
+      color: color.adjust($color-dark, $lightness: 80%);
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+  }
+
+  @media screen and (min-width: 544px) {
+    &__searchbar {
+      max-width: 50%;
+    }
+
+    &__search .autocomplete {
+      max-width: 50%;
+      left: 25%;
+    }
+  }
+
+  /**
+   * Block - Current
+   */
+
+  &__current {
+    @include display-flex-column(center);
+    flex-wrap: wrap;
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  &__message {
+    display: block;
+  }
+
+  &__data {
+    @include display-flex-column(center);
+    flex-wrap: wrap;
+    line-height: 1.2;
+    font-weight: 700;
+    color: $color-light;
+  }
+
+  &__city {
+    display: block;
+    font-size: 2.5rem;
+    text-shadow: $weather-shadow;
+  }
+
+  &__country {
+    display: block;
+    font-size: 1rem;
+    color: inherit;
+    margin-top: 0.4rem;
+
+    .#{$weather}--warm & {
+      color: $weather-color-text-warm;
+    }
+
+    .#{$weather}--neutral & {
+      color: $weather-color-text-neutral;
+    }
+
+    .#{$weather}--cold & {
+      color: $weather-color-text-cold;
+    }
+  }
+
+  &__temperature {
+    display: block;
+    font-size: 3rem;
+    text-shadow: $weather-shadow;
+    margin-top: 0.5rem;
+  }
+
+  @media screen and (min-width: 544px) {
+    &__data {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    &__temperature {
+      align-self: center;
+      font-size: 3.5rem;
+      margin: 0 0 0 2rem;
+    }
+  }
+
+  @media screen and (min-width: 970px) {
+    &__current {
+      width: 50%;
+      margin: 1rem auto;
+    }
+  }
+
+  /* Block - Forecast */
+
+  &__forecast {
+    text-align: center;
+    width: 100%;
+
+    .table > thead {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 970px) {
+    &__forecast {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+}

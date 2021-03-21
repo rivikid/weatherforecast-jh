@@ -9,10 +9,12 @@ export function loadWeatherForecast() {
 function initWeatherForecast() {
   // inserting css styles for module to HTML Head
   insertCssToHtml();
+
   // initialize each WeatherForecast module
   const weatherForecastsElements = document.querySelectorAll(
     "[role=weather-forecast]"
   );
-  // make new object for each Weather Forescast element
+
+  // initialize module for each Weather Forescast element
   weatherForecastsElements.forEach((element) => new WeatherForecast(element));
 }

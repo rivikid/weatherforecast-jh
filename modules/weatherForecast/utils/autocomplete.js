@@ -1,6 +1,6 @@
 import { filterByStr } from "./filterByStr.js";
 
-// autocomplete for search bar
+// autocomplete for Searchbar
 export function autocomplete(
   data,
   str,
@@ -16,7 +16,7 @@ export function autocomplete(
     str && filteredData.length > 0 ? rowsContent(filteredData) : "";
 
   autocompleteEl
-    .querySelectorAll(".autocomplete__item")
+    .querySelectorAll(".js-autocomplete__item")
     .forEach((rowElement) =>
       rowElement.addEventListener(
         "click",
@@ -31,12 +31,12 @@ const rowsContent = (filteredData) => {
   const maxRows = 25;
   let countRows = 0;
 
-  return `<ul class="list list--cold">
+  return `<ul class="list-group">
   ${filteredData
     .map((d) => {
       countRows++;
       if (countRows < maxRows)
-        return `<li class="list__item autocomplete__item" id="${d.id}" data-value="${d.name}">${d.name} / ${d.country}</li>`;
+        return `<li class="list-group__item js-autocomplete__item" id="${d.id}" data-value="${d.name}">${d.name} / ${d.country}</li>`;
     })
     .join("")}
     </ul>`;

@@ -1,6 +1,7 @@
 import { removeDiacritics } from "./removeDiacritics.js";
 
-// filtering property of data which is defined by path, if includes searching string
+// return data that his property includes search string
+// name of property of the object (source data) is defined by "path"
 export function filterByStr(data, str, path) {
   return data.filter((d) => {
     return removeDiacritics(d[path])
