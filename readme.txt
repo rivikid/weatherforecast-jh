@@ -17,10 +17,13 @@ Teplotní hodnoty získané dle aktuální polohy zařízení nebo je lze vyhled
 
 Ukázka aplikace: 
 https://weatherforecast-jh.netlify.app
+<<<<<<< HEAD
 nebo
 http://janhejtman.cz/weatherforecast/index.html
 =======
 
+=======
+>>>>>>> db8672c0837dbf43b3070b8f65419f20b6192ed8
 
 B  Instalace
 1) Aplikaci umístíme do požadované stránky vložením:
